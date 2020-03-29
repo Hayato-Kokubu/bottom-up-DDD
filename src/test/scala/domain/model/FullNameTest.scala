@@ -5,7 +5,7 @@ import org.scalatest.matchers.should.Matchers
 
 class FullNameTest extends FlatSpec with Matchers {
   
-  behavior of "AccountCode"
+  behavior of "FullName"
   
   it should "fullNameの出力ができる" in {
     val fullName = FullName("first", "last")
