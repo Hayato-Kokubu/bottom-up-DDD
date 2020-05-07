@@ -1,14 +1,10 @@
-import domain.model.FullName
+import domain.model.User
 
 object Main extends App {
-
-  val fullName1 = FullName("first","last")
-	val fullName2 = FullName("first1","last")
-	val fullName3 = FullName("first","last2")
-	val fullName4 = FullName("first","last")
-	
-  println(fullName1)
-	println(fullName1 == fullName2)
-	println(fullName1 == fullName3)
-	println(fullName1 == fullName4)
+  def createUser(userName: String): User = User(userName)
+  
+  
+  val u1 = createUser("firstUser")
+  
+  println(u1)
 }
