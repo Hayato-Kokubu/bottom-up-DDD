@@ -1,7 +1,10 @@
+import infrastructure.repository.JdbcUserRepository
+
 object Main extends App {
-  val program = new Program
   
-  val tom = program.createUser("Tom")
+  val program = Program(new JdbcUserRepository)
   
-  println(s"tom = $tom")
+  val ken = program.createUser("Ken")
+  
+  println(s"tom = $ken")
 }

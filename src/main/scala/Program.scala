@@ -1,31 +1,23 @@
 import java.util.UUID
 
-import domain.model.{User, UserId}
+import domain.model.{IUserRepository, User, UserId}
 import domain.service.UserService
-import scalikejdbc._
 
-class Program {
+// repository は外から渡すことで、振る舞いを外から帰ることができる
+// userService についてもやっておきたい？
+case class Program(userRepository: IUserRepository) {
   
   def createUser(userName: String): User = {
     val user = User(userName)
     
-    val userService = new UserService // なんか気持ち悪い: DIしたい
+    val userService = UserService(userRepository) // なんか気持ち悪い: DIしたい
     
-    // initialize JDBC driver & connection pool
-    
-    if(userService.exists(user)) {
-      // 重複確認
-      //DBに登録しに行くが、これがクソ長いのでどうにかしたい
-      val id = UUID.randomUUID.toString
+    if(!userService.exists(user)) {
+      val newUser = User(UserId(UUID.randomUUID.toString), user.name)
       
-      implicit val session = AutoSession
+      userRepository.add(newUser)
       
-      Class.forName("com.mysql.cj.jdbc.Driver")
-      ConnectionPool.singleton("jdbc:mysql://localhost/sample?useSSL=false", "root", "root")
-      
-      sql"insert into user values (${UUID.randomUUID.toString}, ${user.name.value})".update.apply()
-      
-      User(UserId(id), user.name)
+      newUser
     }
     else throw new Exception(s"その名前はすでに存在しています: ${user.name.value}") //はじく
   }
