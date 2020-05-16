@@ -17,6 +17,6 @@ case class Program(userRepository: IUserRepository) {
   
       user
     }
-    else throw new Exception(s"その名前はすでに存在しています: ${user.name.value}") //はじく
+    else throw new IllegalArgumentException(s"その名前はすでに存在しています: ${user.name.value}") //はじく
   }
 }
