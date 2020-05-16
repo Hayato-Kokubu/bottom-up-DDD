@@ -13,11 +13,9 @@ case class Program(userRepository: IUserRepository) {
     val userService = UserService(userRepository) // なんか気持ち悪い: DIしたい
     
     if(!userService.exists(user)) {
-      val newUser = User(UserId(UUID.randomUUID.toString), user.name)
-      
-      userRepository.add(newUser)
-      
-      newUser
+      userRepository.add(user)
+  
+      user
     }
     else throw new Exception(s"その名前はすでに存在しています: ${user.name.value}") //はじく
   }
