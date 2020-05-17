@@ -21,7 +21,7 @@ class JsonUserRepository extends IUserRepository {
     pw.close
   }
   
-  override def find ( userName: UserName ): Option[ User ] = {
+  override def findByName ( userName: UserName ): Option[ User ] = {
     Source.fromFile(targetFileName).getLines
       .map{line =>
         decode[JsonUser](line) match {
@@ -30,6 +30,19 @@ class JsonUserRepository extends IUserRepository {
         }
       }.collectFirst{
       case ju if ju.name == userName.value =>
+        User(UserId(ju.id), UserName(ju.name))
+    }
+  }
+  
+  override def findById ( userId: UserId ): Option[ User ] = {
+    Source.fromFile(targetFileName).getLines
+      .map{line =>
+        decode[JsonUser](line) match {
+          case Right(ju) => ju
+          case _ => throw new IllegalArgumentException(s"invalid json : $line")
+        }
+      }.collectFirst{
+      case ju if ju.id == userId.value =>
         User(UserId(ju.id), UserName(ju.name))
     }
   }

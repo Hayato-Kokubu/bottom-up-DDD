@@ -12,6 +12,9 @@ class InMemoryUserRepository extends IUserRepository {
     ()
   }
   
-  override def find ( userName: UserName ): Option[ User ] =
+  override def findByName ( userName: UserName ): Option[ User ] =
     store.collectFirst{ case (_, user) if user.name == userName => user}
+  
+  override def findById ( userId: UserId ): Option[ User ] =
+    store.collectFirst{ case (_, user) if user.id == userId => user}
 }

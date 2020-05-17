@@ -1,6 +1,6 @@
 package application
 
-import domain.model.{IUserRepository, User}
+import domain.model.{IUserRepository, User, UserId}
 import domain.service.UserService
 
 // repository は外から渡すことで、振る舞いを外から帰ることができる
@@ -19,4 +19,16 @@ case class UserApplicationService ( userRepository: IUserRepository) {
     }
     else throw new IllegalArgumentException(s"その名前はすでに存在しています: ${user.name.value}") //はじく
   }
+  
+  def getUser(userId: UserId): Option[UserQueryData] = {
+    val target = userRepository.findById(userId)
+    
+    target.map(UserQueryData(_))
+  }
+}
+
+case class UserQueryData( id:String, name: String)
+case object UserQueryData {
+  def apply(user: User): UserQueryData =
+    UserQueryData(user.id.value, user.name.value)
 }
