@@ -8,8 +8,8 @@ case class User(id: UserId, name: UserName) {
 }
 
 case object User {
-  def apply(userName: String): User =
-    User(UserId(UUID.randomUUID.toString), UserName(userName))
+  def apply(userName: UserName): User =
+    User(UserId(UUID.randomUUID.toString), userName)
 }
 
 case class UserId(value: String)

@@ -7,7 +7,7 @@ import domain.service.UserService
 // userService についてもやっておきたい？
 case class UserApplicationService ( userRepository: IUserRepository) {
   
-  def createUser(userName: String): User = {
+  def createUser(userName: UserName): User = {
     val user = User(userName)
     
     val userService = UserService(userRepository) // なんか気持ち悪い: DIしたい
