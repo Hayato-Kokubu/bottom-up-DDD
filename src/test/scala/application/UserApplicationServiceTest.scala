@@ -1,12 +1,14 @@
+package application
+
 import domain.model.UserName
 import infrastructure.repository.InMemoryUserRepository
 import org.scalatest._
 import org.scalatest.matchers.should.Matchers
 
-class ProgramTest extends FlatSpec with Matchers{
+class UserApplicationServiceTest extends FlatSpec with Matchers{
   behavior of "createUser"
   val testUserRepo = new InMemoryUserRepository
-  val target = Program(testUserRepo)
+  val target = UserApplicationService(testUserRepo)
   
   
   it should "同じ名前のuserがいない場合にuserを登録できる" in {

@@ -1,11 +1,11 @@
-import java.util.UUID
+package application
 
-import domain.model.{IUserRepository, User, UserId}
+import domain.model.{IUserRepository, User}
 import domain.service.UserService
 
 // repository は外から渡すことで、振る舞いを外から帰ることができる
 // userService についてもやっておきたい？
-case class Program(userRepository: IUserRepository) {
+case class UserApplicationService ( userRepository: IUserRepository) {
   
   def createUser(userName: String): User = {
     val user = User(userName)
