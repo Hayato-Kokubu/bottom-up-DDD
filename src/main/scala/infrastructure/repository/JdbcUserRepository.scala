@@ -13,7 +13,7 @@ class JdbcUserRepository extends IUserRepository {
   
   
   override def add ( user: User ): Unit =
-    sql"insert into user values (${UUID.randomUUID.toString}, ${user.name.value})".update.apply()
+    sql"insert into user values (${user.id.value}, ${user.name.value})".update.apply()
   
   
   override def findByName ( userName: UserName ): Option[ User ] = {
