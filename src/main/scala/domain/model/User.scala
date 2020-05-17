@@ -3,6 +3,8 @@ package domain.model
 import java.util.UUID
 
 case class User(id: UserId, name: UserName) {
+  
+  def changeName(newName: UserName): User = User(this.id, newName)
 }
 
 case object User {

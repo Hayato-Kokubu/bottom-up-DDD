@@ -17,4 +17,7 @@ class InMemoryUserRepository extends IUserRepository {
   
   override def findById ( userId: UserId ): Option[ User ] =
     store.collectFirst{ case (_, user) if user.id == userId => user}
+  
+  // とりあえず。。。
+  override def save ( user: User ): Unit = ???
 }

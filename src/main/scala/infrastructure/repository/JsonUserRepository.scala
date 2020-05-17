@@ -46,6 +46,9 @@ class JsonUserRepository extends IUserRepository {
         User(UserId(ju.id), UserName(ju.name))
     }
   }
+  
+  // とりあえず。。。
+  override def save ( user: User ): Unit = ???
 }
 
 case class JsonUser( id: String, name: String)

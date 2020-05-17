@@ -6,6 +6,7 @@ trait IUserRepository {
   // 今回はUnit だが、User を返す流派もある？
   def add(user: User): Unit
   
+  def save(user: User): Unit
   // findByName
   def findByName(userName: UserName): Option[User]
   
