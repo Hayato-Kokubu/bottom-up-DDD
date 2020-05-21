@@ -13,17 +13,17 @@ class UserApplicationServiceTest extends FlatSpec with Matchers{
   
   it should "同じ名前のuserがいない場合にuserを登録できる" in {
   
-    target.createUser("testUser")
+    target.createUser(UserName("testUser"))
     
     testUserRepo.store.values.map(_.name).toSet shouldEqual Set(UserName("testUser"))
   }
   
   it should "同じ名前のuserがある場合には例外を返す" in {
     
-    target.createUser("existingUser")
+    target.createUser(UserName("existingUser"))
   
     a [IllegalArgumentException] should be thrownBy{
-      target.createUser("existingUser")
+      target.createUser(UserName("existingUser"))
     }
     
     

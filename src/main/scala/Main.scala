@@ -8,11 +8,11 @@ object Main extends App {
   
   val program = UserApplicationService(new JdbcUserRepository)
   
-  val hana = program.createUser(UserName("Hana"))
+  val hanaChan = program.createUser(UserName("HanaChan"))
   
-  val kana = program.updateUser(hana.id, UserName("Kana"))
+  val kanaChan = program.updateUser(hanaChan.id, UserName("KanaChan"))
   
-  val res = program.getUser(kana.id)
+  val res = program.getUser(kanaChan.id)
 
   println(s"res = $res")
 }

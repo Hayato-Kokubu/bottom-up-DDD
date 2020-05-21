@@ -43,6 +43,6 @@ class JdbcUserRepository extends IUserRepository {
   }
   
   override def save ( user: User ): Unit =
-    sql"update User set id = ${user.id.value}, name = ${user.name.value} where ".update.apply()
+    sql"update User set name = ${user.name.value} where id = ${user.id.value}".update.apply()
 
 }
