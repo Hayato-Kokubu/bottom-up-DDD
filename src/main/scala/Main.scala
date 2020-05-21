@@ -10,9 +10,11 @@ object Main extends App {
   
   val hanaChan = program.createUser(UserName("HanaChan"))
   
-  val kanaChan = program.updateUser(hanaChan.id, UserName("KanaChan"))
+  val res = program.getUser(hanaChan.id)
   
-  val res = program.getUser(kanaChan.id)
+  program.deleteUser(hanaChan.id)
+  
+  
 
   println(s"res = $res")
 }

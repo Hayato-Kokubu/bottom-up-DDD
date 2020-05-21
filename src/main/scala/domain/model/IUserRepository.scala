@@ -7,7 +7,9 @@ trait IUserRepository {
   def add(user: User): Unit
   
   def save(user: User): Unit
-  // findByName
+  
+  def delete(user: User): Unit
+  
   def findByName(userName: UserName): Option[User]
   
   def findById(userId: UserId): Option[User]

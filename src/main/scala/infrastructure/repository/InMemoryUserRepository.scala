@@ -20,4 +20,7 @@ class InMemoryUserRepository extends IUserRepository {
   
   // とりあえず。。。
   override def save ( user: User ): Unit = ???
+  
+  // とりあえず。。。
+  override def delete ( user: User ): Unit = ???
 }

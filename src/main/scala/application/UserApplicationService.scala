@@ -35,6 +35,18 @@ case class UserApplicationService ( userRepository: IUserRepository) {
     
     updated
   }
+  
+  def deleteUser(userId: UserId): User = {
+    val target = userRepository.findById(userId)
+    
+    target match {
+      case Some(user) => {
+        userRepository.delete(user)
+        user
+      }
+      case None       => throw new IllegalArgumentException(s"このユーザは登録されていません id: $userId")
+    }
+  }
 }
 
 case class UserQueryData( id:String, name: String)
