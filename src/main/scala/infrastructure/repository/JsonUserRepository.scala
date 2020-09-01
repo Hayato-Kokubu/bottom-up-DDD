@@ -18,7 +18,7 @@ class JsonUserRepository extends IUserRepository {
     
     val added = JsonUser(user)
     pw.write(added.asJson.noSpaces + System.getProperty("line.separator"))
-    pw.close
+    pw.close()
   }
   
   override def findByName ( userName: UserName ): Option[ User ] = {
