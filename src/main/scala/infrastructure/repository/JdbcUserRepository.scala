@@ -10,42 +10,73 @@ class JdbcUserRepository extends IUserRepository {
   ConnectionPool.singleton("jdbc:mysql://localhost/sample?useSSL=false", "root", "root")
   
   implicit val session = AutoSession
+  val u = UserRecord.syntax("u")
+  val cols = UserRecord.column
   
-  
-  override def add ( user: User ): Unit =
-    sql"insert into user values (${user.id.value}, ${user.name.value})".update.apply()
-  
-  
-  override def findByName ( userName: UserName ): Option[ User ] = {
-    val entities: Option[Map[String, Any]] =
-      sql"select * from User where name = ${userName.value}"
-        .map(_.toMap).single.apply()
-  
-    val maybeUser =
-      entities.map{ e =>
-        User( UserId(e("id").toString), UserName(e("name").toString))
-      }
-  
-    maybeUser
+  override def add ( user: User ): Unit = {
+    withSQL {
+      insert.into(UserRecord)
+        .namedValues(
+          cols.id -> user.id.value,
+          cols.name -> user.name.value
+        )
+    }.update.apply()
   }
   
+  
+  override def findByName ( userName: UserName ): Option[ User ] =
+    withSQL {
+      select
+        .from(UserRecord as u)
+        .where
+        .eq(u.name, userName.value)
+    }.map{ _ =>
+      User(
+        UserId(u.resultName.id),
+        UserName(u.resultName.name)
+      )
+    }.single.apply()
+  
   override def findById ( userId: UserId ): Option[ User ] = {
-    val entities: Option[Map[String, Any]] =
-      sql"select * from User where id = ${userId.value}"
-        .map(_.toMap).single.apply()
-  
-    val maybeUser =
-      entities.map{ e =>
-        User( UserId(e("id").toString), UserName(e("name").toString))
-      }
-  
-    maybeUser
+    withSQL {
+      select
+        .from(UserRecord as u)
+        .where.eq(u.id, userId.value)
+    }.map { _ =>
+      User (
+        id = UserId ( u.resultName.id ),
+        name = UserName ( u.resultName.name )
+      )
+    }.single.apply()
   }
   
   override def save ( user: User ): Unit =
-    sql"update User set name = ${user.name.value} where id = ${user.id.value}".update.apply()
+    withSQL {
+      update(UserRecord as u)
+        .set( cols.name -> user.name.value)
+        .where
+        .eq(u.id, user.id.value)
+    }.update.apply()
   
   override def delete ( user: User ): Unit =
-    sql"delete from User where id = ${user.id.value}".update.apply()
+    withSQL {
+      QueryDSL.delete // method のdelete と重複するため
+        .from(UserRecord as u)
+        .where
+        .eq(u.id, user.id.value)
+    }.update.apply()
+}
 
+case class UserRecord(
+  id: String,
+  name: String
+)
+
+object UserRecord extends SQLSyntaxSupport[UserRecord]{
+  
+  override val tableName = "User"
+  override val columns = Seq("id", "name")
+  
+  def apply(st: ResultName[UserRecord])(rs: WrappedResultSet): UserRecord =
+    autoConstruct(rs, st)
 }
