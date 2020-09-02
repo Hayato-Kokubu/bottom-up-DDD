@@ -7,7 +7,7 @@ import scalikejdbc._
 
 class JdbcUserRepository extends IUserRepository {
   Class.forName("com.mysql.cj.jdbc.Driver")
-  ConnectionPool.singleton("jdbc:mysql://localhost/sample?useSSL=false", "root", "root")
+  ConnectionPool.singleton("jdbc:mysql://localhost/bottom_up_ddd?useSSL=false", "bottom_up_ddd_user", "bottom_up_ddd")
   
   implicit val session = AutoSession
   val u = UserRecord.syntax("u")
