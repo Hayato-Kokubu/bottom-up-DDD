@@ -30,10 +30,11 @@ class JdbcUserRepository extends IUserRepository {
         .from(UserRecord as u)
         .where
         .eq(u.name, userName.value)
-    }.map{ _ =>
+    }.map{ rs =>
+      val r = UserRecord(u.resultName)(rs)
       User(
-        UserId(u.resultName.id),
-        UserName(u.resultName.name)
+        UserId(r.id),
+        UserName(r.name)
       )
     }.single.apply()
   
@@ -42,10 +43,11 @@ class JdbcUserRepository extends IUserRepository {
       select
         .from(UserRecord as u)
         .where.eq(u.id, userId.value)
-    }.map { _ =>
+    }.map { rs =>
+      val r = UserRecord(u.resultName)(rs)
       User (
-        id = UserId ( u.resultName.id ),
-        name = UserName ( u.resultName.name )
+        id = UserId ( r.id ),
+        name = UserName ( r.name )
       )
     }.single.apply()
   }
