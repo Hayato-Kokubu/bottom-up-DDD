@@ -1,13 +1,16 @@
-package application
+package infrastructure.repository.application
 
+import application.IUserApplicationService
 import domain.model.{IUserRepository, User, UserId, UserName}
 import domain.service.UserService
 
 // repository は外から渡すことで、振る舞いを外から帰ることができる
 // userService についてもやっておきたい？
-case class UserApplicationService ( userRepository: IUserRepository) {
+case class UserApplicationService (
+  userRepository: IUserRepository
+) extends IUserApplicationService {
   
-  def createUser(userName: UserName): User = {
+  override def createUser(userName: UserName): User = {
     val user = User(userName)
     
     val userService = UserService(userRepository) // なんか気持ち悪い: DIしたい
@@ -20,13 +23,13 @@ case class UserApplicationService ( userRepository: IUserRepository) {
     else throw new IllegalArgumentException(s"その名前はすでに存在しています: ${user.name.value}") //はじく
   }
   
-  def getUser(userId: UserId): Option[UserQueryData] = {
+  override def getUser(userId: UserId): Option[UserQueryData] = {
     val target = userRepository.findById(userId)
     
     target.map(UserQueryData(_))
   }
   
-  def updateUser(userId: UserId, newName: UserName): User = {
+  override def updateUser(userId: UserId, newName: UserName): User = {
     val target = userRepository.findById(userId)
     val updated =
       target.map(_.changeName(newName)).getOrElse(throw new IllegalArgumentException(s"このユーザは登録されていません id: $userId"))
@@ -36,7 +39,7 @@ case class UserApplicationService ( userRepository: IUserRepository) {
     updated
   }
   
-  def deleteUser(userId: UserId): User = {
+  override def deleteUser(userId: UserId): User = {
     val target = userRepository.findById(userId)
     
     target match {

@@ -2,6 +2,7 @@ package application
 
 import domain.model.UserName
 import infrastructure.repository.InMemoryUserRepository
+import infrastructure.repository.application.UserApplicationService
 import org.scalatest._
 import org.scalatest.matchers.should.Matchers
 
