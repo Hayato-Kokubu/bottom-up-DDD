@@ -1,4 +1,6 @@
-import domain.model.UserId
+import java.util.Scanner
+
+import domain.model.{UserId, UserName}
 import infrastructure.repository.{JdbcUserRepository, JsonUserRepository}
 import infrastructure.repository.application.{UserApplicationMockService, UserApplicationService}
 
@@ -6,12 +8,34 @@ import infrastructure.repository.application.{UserApplicationMockService, UserAp
 object Main extends App {
   val module = new ApplicationModule()
   
-  // 現状では、ここで Mock か 実際のService かを選んでいる。
-  val program = module.userApplicationService //UserApplicationMockService(new JdbcUserRepository)
+  val program = module.userApplicationService
   
-  val a = program.getUser(UserId("abc"))
+  printHeader()
   
-  println(s"a = $a")
+  val sc = new Scanner(System.in)
+  
+  val userName = sc.next
+  val newUser = program.createUser(UserName(userName))
+  
+  printResult(userName)
+  
+  printEnd()
+  
+
+  def printHeader(): Unit = {
+    println("Input yser name")
+    print(">")
+  }
+  
+  def printResult(userName: String): Unit = {
+    println("-----------------")
+    println("user created:")
+    println("-----------------")
+    println(s"- $userName")
+    println("-----------------")
+  }
+  
+  def printEnd(): Unit = println("end")
 
 }
 
