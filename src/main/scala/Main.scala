@@ -1,26 +1,41 @@
 import java.util.Scanner
 
-import domain.model.{UserId, UserName}
-import infrastructure.repository.{JdbcUserRepository, JsonUserRepository}
-import infrastructure.repository.application.{UserApplicationMockService, UserApplicationService}
+import Main.LoopStatus.{Continue, Exit}
+// import Main.LoopStatus._ ではなぜかエラー
+import domain.model.UserName
+import infrastructure.repository.JdbcUserRepository
+import infrastructure.repository.application.UserApplicationService
 
 // 現状はAPI層として見たい
 object Main extends App {
   val module = new ApplicationModule()
-  
   val program = module.userApplicationService
-  
-  printHeader()
   
   val sc = new Scanner(System.in)
   
-  val userName = sc.next
-  val newUser = program.createUser(UserName(userName))
+  loop(Continue)
   
-  printResult(userName)
+  def loop(status: LoopStatus): Unit =
+  status match {
+    case Exit => ()
+    case Continue => {
+      printHeader()
   
-  printEnd()
+      val userName = sc.next
+      val newUser = program.createUser(UserName(userName))
   
+      printResult(userName)
+  
+      println("continue? y/n")
+      print(">")
+      val flg = sc.next
+  
+      flg match {
+        case "n" => loop(Exit)
+        case  _  => loop(Continue)
+      }
+    }
+  }
 
   def printHeader(): Unit = {
     println("Input yser name")
@@ -35,7 +50,11 @@ object Main extends App {
     println("-----------------")
   }
   
-  def printEnd(): Unit = println("end")
+  sealed trait LoopStatus
+  object LoopStatus {
+    case object Continue extends LoopStatus
+    case object Exit extends LoopStatus
+  }
 
 }
 
