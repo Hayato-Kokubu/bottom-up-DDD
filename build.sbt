@@ -20,8 +20,13 @@ libraryDependencies ++= Seq(
   // circe
   "io.circe" %% "circe-core" % "0.12.3",
   "io.circe" %% "circe-generic" % "0.12.3",
-  "io.circe" %% "circe-parser" % "0.12.3"
+  "io.circe" %% "circe-parser" % "0.12.3",
   
+  // MacWire
+  "com.softwaremill.macwire" %% "macros" % "2.3.6" % "provided" , 
+  "com.softwaremill.macwire" %% "macrosakka" % "2.3.6" % "provided",
+  "com.softwaremill.macwire" %% "util" % "2.3.6",
+  "com.softwaremill.macwire" %% "proxy" % "2.3.6"
   
 )
 
