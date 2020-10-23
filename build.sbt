@@ -26,8 +26,12 @@ libraryDependencies ++= Seq(
   "com.softwaremill.macwire" %% "macros" % "2.3.6" % "provided" , 
   "com.softwaremill.macwire" %% "macrosakka" % "2.3.6" % "provided",
   "com.softwaremill.macwire" %% "util" % "2.3.6",
-  "com.softwaremill.macwire" %% "proxy" % "2.3.6"
+  "com.softwaremill.macwire" %% "proxy" % "2.3.6",
   
+  // akka http
+  "com.typesafe.akka" %% "akka-stream" % "2.6.5", // 最新は 2.6.8
+  "com.typesafe.akka" %% "akka-http" % "10.1.12", // 最新は 10.2.1
+
 )
 
 
