@@ -31,7 +31,7 @@ libraryDependencies ++= Seq(
   // akka http
   "com.typesafe.akka" %% "akka-stream" % "2.6.5", // 最新は 2.6.8
   "com.typesafe.akka" %% "akka-http" % "10.1.12", // 最新は 10.2.1
-
+  "de.heikoseeberger" %% "akka-http-circe" % "1.31.0",
 )
 
 
