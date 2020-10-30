@@ -6,6 +6,7 @@ import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
+import infrastructure.repository.AutoIncrementUserFactory
 
 import scala.concurrent.ExecutionContext
 import scala.io.StdIn
@@ -112,8 +113,8 @@ class ApplicationModule {
   // ふくすういると怒られる lazy val userRepository2 = wire[JsonUserRepository]
   lazy val userApplicationService = wire[UserApplicationService] // UserApplicationService
   
-  println(s"userApplicationService = $userApplicationService")
-  lazy val userRepository1 = wire[JdbcUserRepository] //
+  lazy val userRepository = wire[JdbcUserRepository] //
+  lazy val userFactory = wire[AutoIncrementUserFactory] //
   
   
 }

@@ -1,17 +1,20 @@
 package infrastructure.repository.application
 
 import application.IUserApplicationService
-import domain.model.{IUserRepository, User, UserId, UserName}
+import domain.model._
 import domain.service.UserService
 
 // repository は外から渡すことで、振る舞いを外から帰ることができる
 // userService についてもやっておきたい？
 case class UserApplicationService (
-  userRepository: IUserRepository
+  userRepository: IUserRepository,
+  userFactory: IUserFactory,
 ) extends IUserApplicationService {
   
   override def createUser(userName: UserName): User = {
-    val user = User(userName)
+    
+    val user = userFactory.create(userName)
+//  val user = User(userName)// ここでつくっている
     
     val userService = UserService(userRepository) // なんか気持ち悪い: DIしたい
     
