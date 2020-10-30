@@ -26,7 +26,6 @@ class AutoIncrementUserFactory () extends IUserFactory {
         }.update.apply()
         sql"select LAST_INSERT_ID()".map(rs => rs.long(1)).single.apply().getOrElse(throw new IllegalStateException("採番時のエラー"))
       }
-      newIdNum
       
       UserId(convertNumToUUIDString(newIdNum))// UserSeq から 値を取得 -> convertNumToUUIDString で変換した文字列
     }

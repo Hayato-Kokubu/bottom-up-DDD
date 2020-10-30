@@ -7,17 +7,6 @@ case class User(id: UserId, name: UserName) {
   def changeName(newName: UserName): User = User(this.id, newName)
 }
 
-case object User {
-
-//  // 再作成 は User
-//  def apply(userId: UserId, userName: UserName): User =
-//    User(userId, userName)
-  
-  // 新規作成
-  def apply(userName: UserName): User =
-    User(UserId(UUID.randomUUID.toString), userName)
-}
-
 case class UserId(value: String)
 case class UserName(value: String)
 
